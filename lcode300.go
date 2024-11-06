@@ -3,6 +3,7 @@ package main
 func lengthOfLIS(nums []int) int {
 	dp := make([]int, len(nums))
 	dp[len(dp)-1] = 1
+	gmax := 0
 
 	for i := len(dp) - 2; i >= 0; i-- {
 		maxLISLengthForI := 0
@@ -12,7 +13,8 @@ func lengthOfLIS(nums []int) int {
 			}
 		}
 		dp[i] = 1 + maxLISLengthForI
+		gmax = max(gmax, dp[i])
 	}
 
-	return dp[0]
+	return gmax
 }
