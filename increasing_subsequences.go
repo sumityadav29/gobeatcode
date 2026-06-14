@@ -38,7 +38,7 @@ func GetAllIncreasingSubsequences(nums []int, curr []int, index int, res [][]int
 	AllIncreasingSubsequences(nums, curr, index+1)
 }
 
-func GetLongestIncreasingSubsequences(nums []int, curr []int, index int) []int {
+func GetLongestIncreasingSubsequence(nums []int, curr []int, index int) []int {
 	if index == len(nums) {
 		if len(curr) > 0 {
 			return curr
@@ -52,14 +52,37 @@ func GetLongestIncreasingSubsequences(nums []int, curr []int, index int) []int {
 		next := make([]int, len(curr), len(curr)+1)
 		copy(next, curr)
 		next = append(next, nums[index])
-		res = GetLongestIncreasingSubsequences(nums, next, index+1)
+		res = GetLongestIncreasingSubsequence(nums, next, index+1)
 	}
 
-	excl := GetLongestIncreasingSubsequences(nums, curr, index+1)
+	excl := GetLongestIncreasingSubsequence(nums, curr, index+1)
 
 	if len(excl) > len(res) {
 		res = excl
 	}
 
 	return res
+}
+
+func GetLengthOfLIS(nums []int) int {
+	if len(nums) == 0 {
+		return 0
+	}
+
+	gmax := 1
+	dp := make([]int, len(nums))
+	dp[0] = 1
+
+	for i := 1; i < len(nums); i++ {
+		maxForITillNow := 0
+		for j := 0; j < i; j++ {
+			if nums[i] > nums[j] {
+				maxForITillNow = max(maxForITillNow, dp[j])
+			}
+		}
+		dp[i] = 1 + maxForITillNow
+		gmax = max(gmax, dp[i])
+	}
+
+	return gmax
 }

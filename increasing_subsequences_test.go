@@ -82,7 +82,7 @@ func TestGetLongestIncreasingSubsequences(t *testing.T) {
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			got := GetLongestIncreasingSubsequences(c.nums, []int{}, 0)
+			got := GetLongestIncreasingSubsequence(c.nums, []int{}, 0)
 
 			if len(got) != c.wantLen {
 				t.Errorf("GetLongestIncreasingSubsequences(%v) = %v (len %d), want len %d",
@@ -91,6 +91,30 @@ func TestGetLongestIncreasingSubsequences(t *testing.T) {
 			if !isStrictlyIncreasing(got) {
 				t.Errorf("GetLongestIncreasingSubsequences(%v) = %v is not strictly increasing",
 					c.nums, got)
+			}
+		})
+	}
+}
+
+func TestGetLengthOfLIS(t *testing.T) {
+	cases := []struct {
+		name string
+		nums []int
+		want int
+	}{
+		{"classic", []int{10, 9, 2, 5, 3, 7, 101, 18}, 4},
+		{"mixed", []int{0, 1, 0, 3, 2, 3}, 4},
+		{"all equal", []int{7, 7, 7, 7}, 1},
+		{"all decreasing", []int{5, 4, 3, 2, 1}, 1},
+		{"all increasing", []int{1, 2, 3, 4, 5}, 5},
+		{"single", []int{5}, 1},
+		{"empty", []int{}, 0},
+	}
+
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			if got := GetLengthOfLIS(c.nums); got != c.want {
+				t.Errorf("GetLengthOfLIS(%v) = %d, want %d", c.nums, got, c.want)
 			}
 		})
 	}
